@@ -82,9 +82,9 @@ class _LoginPageWidgetState extends State<_LoginPageWidget> {
           SizedBox(height: 64),
           Center(
               child: Text(
-                "Вход",
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
-              )),
+            "Вход",
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
+          )),
           Spacer(flex: 88),
           _EmailTextField(
             emailFocusNode: _emailFocusNode,
@@ -129,11 +129,23 @@ class _LoginButton extends StatelessWidget {
           selector: (state) => state.allFieldsValid,
           builder: (context, fieldsValid) {
             return ElevatedButton(
-                onPressed: fieldsValid
-                    ? () =>
-                    context.read<LoginBloc>().add(LoginLoginButtonClicked())
-                    : null,
-                child: Text("Войти"));
+              onPressed: fieldsValid
+                  ? () =>
+                      context.read<LoginBloc>().add(LoginLoginButtonClicked())
+                  : null,
+              child: Text("Войти"),
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.resolveWith(
+                    (states) {
+                      if (states.contains(MaterialState.disabled)) {
+                        return Color(0xB3366EC4);
+                      }
+                      return Color(0xFF2950AF);
+                    },
+                  ),
+                  textStyle: MaterialStateProperty.all(
+                      TextStyle(color: Colors.white, fontSize: 16))),
+            );
           },
         ),
       ),
@@ -146,8 +158,7 @@ class _EmailTextField extends StatelessWidget {
     Key? key,
     required FocusNode emailFocusNode,
     required FocusNode passwordFocusNode,
-  })
-      : _emailFocusNode = emailFocusNode,
+  })  : _emailFocusNode = emailFocusNode,
         _passwordFocusNode = passwordFocusNode,
         super(key: key);
 
@@ -182,8 +193,7 @@ class _PasswordTextField extends StatelessWidget {
   const _PasswordTextField({
     Key? key,
     required FocusNode passwordFocusNode,
-  })
-      : _passwordFocusNode = passwordFocusNode,
+  })  : _passwordFocusNode = passwordFocusNode,
         super(key: key);
 
   final FocusNode _passwordFocusNode;
